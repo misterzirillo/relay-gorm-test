@@ -1,15 +1,20 @@
 package grtorrent
 
-import grails.rest.Resource
+import io.cirill.relay.annotation.RelayField
+import io.cirill.relay.annotation.RelayType
 
-@Resource(uri='/comments', formats=['json', 'xml'])
-class Comment {
+@RelayType
+class Comment implements CommentRelay {
 
+    @RelayField
     String text;
+
+    @RelayField
     String author;
 
     static constraints = {
         text blank:false
         author blank:false
     }
+
 }

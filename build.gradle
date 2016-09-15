@@ -15,6 +15,7 @@ buildscript {
 
 plugins {
     id "io.spring.dependency-management" version "0.5.2.RELEASE"
+    id "com.moowork.node" version "0.13"
 }
 
 version "0.1"
@@ -65,11 +66,10 @@ dependencies {
     compile "org.hibernate:hibernate-ehcache"
     compile "org.grails.plugins:scaffolding"
 
-    // react
-    compile "org.grails.plugins:react-grails-asset-pipeline:0.1"
+    compile "io.cirill:relay-gorm-connector:0.2-2"
 
     // scss
-    provided "com.bertramlabs.plugins:sass-asset-pipeline:2.3.1"
+    //provided "com.bertramlabs.plugins:sass-asset-pipeline:2.3.1"
 
     runtime "org.grails.plugins:asset-pipeline"
 

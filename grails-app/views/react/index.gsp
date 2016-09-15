@@ -9,23 +9,13 @@
 <html>
 <head>
     <title></title>
-    <asset:reactTemplate src="react/comment-components.jsx" />
     <asset:stylesheet src="react.css" />
 
 </head>
 <body>
 
     <div id="content"></div>
-    <script type="text/javascript">
-        React.render(
-                React.createElement(CommentBox,
-                        {
-                            url: "${createLink(controller:"comments")}",
-                            pollInterval: 10000
-                        }),
-                document.getElementById('content')
-        );
-    </script>
+	<asset:javascript src="bundle.js" />
 
 </body>
 </html>
