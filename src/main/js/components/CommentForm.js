@@ -10,24 +10,21 @@ export default class CommentForm extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		let { _nameInput, _textInput } = this;
-		const author = _nameInput.value.trim();
+		let { _textInput } = this;
 		const text = _textInput.value.trim();
 
-		if (!text || !author) {
+		if (!text) {
 			return;
 		}
 
-		this.props.handleSubmit({ author, text });
+		this.props.handleSubmit(text);
 
-		_nameInput.value = '';
 		_textInput.value = '';
 	};
 
 	render () {
 		return (
 			<form className="commentForm" onSubmit={this.handleSubmit}>
-				<input type="text" placeholder="Your name" ref={ref => this._nameInput = ref}/>
 				<input type="text" placeholder="Say something..." ref={ref => this._textInput = ref}/>
 				<input type="submit" value="Post" />
 			</form>

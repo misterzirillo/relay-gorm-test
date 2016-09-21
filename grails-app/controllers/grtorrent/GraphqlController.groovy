@@ -10,15 +10,9 @@ class GraphqlController {
     def index() {
         String query = request.JSON.query.toString()
 	    Map vars = request.JSON.variables
-	    ExecutionResult result = relayService.query(query, null, vars)
-	    def response = [:]
-	    if (result.data) {
-		    response.data = result.data
-	    }
-	    if (result.errors) {
-		    response.errors = result.errors
-	    }
-	    render(response as JSON)
+	    def result = relayService.query(query, null, vars)
+
+	    render(result as JSON)
     }
 
     def introspect() {

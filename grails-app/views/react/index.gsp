@@ -10,6 +10,7 @@
 <head>
     <title></title>
     <asset:stylesheet src="react.css" />
+    <asset:stylesheet src="application.css" />
 
 </head>
 <body>

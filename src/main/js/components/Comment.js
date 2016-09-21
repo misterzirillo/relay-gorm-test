@@ -6,10 +6,10 @@ class Comment extends React.Component {
 	render () {
 		return (
 			<div className="comment">
-				<h2 className="commentAuthor">
-					{this.props.comment.author}
-				</h2>
-				<div>{this.props.comment.text}</div>
+				<h3 className="commentAuthor">
+					{this.props.comment.author.name}
+				</h3>
+				<blockquote>{this.props.comment.text}</blockquote>
 			</div>
 		);
 	}
@@ -17,7 +17,6 @@ class Comment extends React.Component {
 
 export default Relay.createContainer(Comment, {
 	fragments: {
-		//viewer: () => Relay.QL`fragment on Viewer { allComments { text, author } }`,
-		comment: () => Relay.QL`fragment on Comment { id, text, author }`
+		comment: () => Relay.QL`fragment on Comment { id, text, author { name } }`
 	}
 });

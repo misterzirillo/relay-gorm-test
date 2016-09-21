@@ -1,8 +1,11 @@
 package grtorrent
 
+import io.cirill.relay.annotation.RelayConnection
 import io.cirill.relay.annotation.RelayField
 import io.cirill.relay.annotation.RelayQuery
 import io.cirill.relay.annotation.RelayType
+import io.cirill.relay.dsl.GQLConnectionTypeSpec
+import io.cirill.relay.dsl.GQLFieldSpec
 
 /**
  * grtorrent
@@ -12,18 +15,31 @@ import io.cirill.relay.annotation.RelayType
 @RelayType
 class Viewer {
 
+	static hasMany = [
+	        comments: Comment
+	]
+
 	@RelayField
-	List<Comment> allComments
+	String name
 
 	@RelayQuery
-	static Viewer viewer() {
-		def ret = new Viewer()
-		ret.allComments = Comment.allComments()
-		return ret
+	static viewerQuery = {
+		GQLFieldSpec.field {
+			name 'viewer'
+			type {
+				ref 'Viewer'
+			}
+			dataFetcher { env -> Viewer.first() }
+		}
 	}
 
-	static Viewer findById(String id) {
-		return viewer()
+	@RelayConnection(connectionFor = 'comments')
+	static commentsConnection = {
+		GQLConnectionTypeSpec.connectionType {
+			name 'Comments'
+			edgeType {
+				ref 'Comment'
+			}
+		}
 	}
-
 }

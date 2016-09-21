@@ -6,15 +6,18 @@ import io.cirill.relay.annotation.RelayType
 @RelayType
 class Comment implements CommentRelay {
 
-    @RelayField
-    String text;
+    static hasOne = [
+            author: Viewer
+    ]
+
+	static constraints = {
+		text blank:false
+	}
 
     @RelayField
-    String author;
+    String text
 
-    static constraints = {
-        text blank:false
-        author blank:false
-    }
+	@RelayField
+	Viewer author
 
 }

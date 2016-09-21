@@ -1,8 +1,14 @@
 package grtorrent
 
+import graphql.Scalars
+import graphql.relay.SimpleListConnection
+import graphql.schema.DataFetcher
+import graphql.schema.DataFetchingEnvironment
+import graphql.schema.GraphQLTypeReference
+import io.cirill.relay.RelayHelpers
 import io.cirill.relay.annotation.RelayMutation
-import io.cirill.relay.annotation.RelayMutationInput
-import io.cirill.relay.annotation.RelayQuery
+import io.cirill.relay.dsl.GQLConnectionTypeSpec
+import io.cirill.relay.dsl.GQLMutationSpec
 
 /**
  * grtorrent
@@ -10,18 +16,82 @@ import io.cirill.relay.annotation.RelayQuery
  */
 trait CommentRelay {
 
-	@RelayMutation(output = ['author', 'text'])
-	static def addComment(
-			@RelayMutationInput(name = 'author') String name,
-			@RelayMutationInput(name = 'text') String text
-	) {
-		Comment comment = new Comment(author: name, text: text)
-		comment.save()
+	@RelayMutation
+	static relayMutations = {
+		GQLMutationSpec.field {
+			name 'addComment'
+			type {
+				name 'AddCommentsPayload'
+				field {
+					name 'viewer'
+					type {
+						ref 'Viewer'
+					}
+				}
+				field {
+					name 'newCommentEdge'
+					type {
+						name 'NewCommentEdge'
+						field {
+							name 'cursor'
+							type Scalars.GraphQLString
+						}
+						field {
+							name 'node'
+							type {
+								ref 'Comment'
+							}
+						}
+					}
+				}
+				field {
+					name 'clientMutationId'
+					type Scalars.GraphQLString
+				}
+			}
+			inputType {
+				name 'AddCommentsInput'
+				field {
+					name 'authorId'
+					type {
+						nonNull Scalars.GraphQLID
+					}
+				}
+				field {
+					name 'text'
+					type {
+						nonNull Scalars.GraphQLString
+					}
+				}
+			}
+			dataFetcher new AddCommentMutation()
+		}
 	}
 
-	@RelayQuery
-	static List<Comment> allComments() {
-		Comment.findAll()*.asType(Comment)
+	static class AddCommentMutation implements DataFetcher {
+		@Override
+		Object get(DataFetchingEnvironment environment) {
+			String authorId = environment.arguments.input.authorId
+			String text = environment.arguments.input.text
+			Viewer viewer = Viewer.findById(RelayHelpers.fromGlobalId(authorId).id)
+
+			Comment comment = new Comment(text: text, author: viewer)
+			viewer.comments.add comment
+			comment.save()
+			viewer.save()
+
+			def connection = new SimpleListConnection(viewer.comments as List)
+			def cursor = connection.cursorForObjectInConnection(comment)
+
+			return [
+			        newCommentEdge : [
+			                cursor : cursor.value,
+					        node : comment
+			        ],
+					viewer : viewer,
+					clientMutationId : environment.arguments.input.clientMutationId
+			]
+		}
 	}
 
 }

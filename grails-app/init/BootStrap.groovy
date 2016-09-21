@@ -1,11 +1,13 @@
 import grtorrent.Comment
+import grtorrent.Viewer
 
 class BootStrap {
 
     def init = { servletContext ->
-        new Comment (author: 'Master shake',
-                text: 'I have the chin of a god!').save()
-
+	    def v = new Viewer(name: 'You')
+	    def e = new Comment(text: 'First!', author: v)
+	    v.comments = [e]
+	    [v,e]*.save()
     }
     def destroy = {
     }

@@ -7,18 +7,30 @@ export default class AddCommentMutation extends Relay.Mutation {
 	}
 
 	getVariables() {
-		return { author: this.props.author, text: this.props.text }
+		return { authorId: this.props.viewer.id, text: this.props.text }
 	}
 
 	getConfigs() {
-		return []; //todo
+		return [{
+			type: 'RANGE_ADD',
+			parentID: this.props.viewer.id,
+			connectionName: 'comments',
+			edgeName: 'newCommentEdge',
+			rangeBehaviors: {
+				// When the ships connection is not under the influence
+				// of any call, append the ship to the end of the connection
+				'': 'append',
+				// Prepend the ship, wherever the connection is sorted by age
+				'orderby(newest)': 'prepend',
+			}
+		}];
 	}
 
 	getFatQuery() {
-		return  Relay.QL`fragment on Viewer { allComments }`;
+		return  Relay.QL`fragment on AddCommentsPayload { newCommentEdge, viewer { comments } }`;
 	}
 
 	static fragments = {
-		viewer: () => Relay.QL`fragment on Viewer { id, allComments }`
+		viewer: () => Relay.QL`fragment on Viewer { id }`
 	};
 }

@@ -5,9 +5,9 @@ import Comment from './Comment';
 /** Comment List **/
 class CommentList extends React.Component {
 	render () {
-		var commentNodes = this.props.viewer.allComments.map(function (comment, i) {
+		var commentNodes = this.props.viewer.comments.edges.map(function (edge, i) {
 			return (
-				<Comment key={i} comment={comment}/>
+				<Comment key={i} comment={edge.node}/>
 			);
 		});
 		return (
@@ -20,6 +20,6 @@ class CommentList extends React.Component {
 
 export default Relay.createContainer(CommentList, {
 	fragments: {
-		viewer: () => Relay.QL`fragment on Viewer { allComments { ${Comment.getFragment('comment')} } }`,
+		viewer: () => Relay.QL`fragment on Viewer { comments(first: 10) { edges { node { ${Comment.getFragment('comment')} } } } }`,
 	}
 });

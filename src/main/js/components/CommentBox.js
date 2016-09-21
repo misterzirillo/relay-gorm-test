@@ -11,16 +11,14 @@ class CommentBox extends React.Component {
 		super(props);
 	}
 
-	handleSubmit = (comment) => {
-		this.props.relay.commitUpdate(new AddCommentMutation({ ...comment, viewer: this.props.viewer }), {
-			onSuccess: () => this.props.relay.forceFetch([])
-		});
+	handleSubmit = (text) => {
+		this.props.relay.commitUpdate(new AddCommentMutation({ text, viewer: this.props.viewer }));
 	};
 
     render () {
 	    return (
             <div className="commentBox">
-                <h1>Comments</h1>
+                <h1>Super Comments List</h1>
                 <CommentList viewer={this.props.viewer} />
                 <CommentForm handleSubmit={this.handleSubmit} />
             </div>

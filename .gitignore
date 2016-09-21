@@ -100,6 +100,7 @@ crashlytics-build.properties
 /web-app/WEB-INF/classes
 
 # default HSQL database files for production mode
+/.asscache
 /grails-app/assets/javascripts/bundle.js
 /prodDb.*
 
