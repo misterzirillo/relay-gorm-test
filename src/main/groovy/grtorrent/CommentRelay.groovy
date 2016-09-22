@@ -73,7 +73,7 @@ trait CommentRelay {
 		Object get(DataFetchingEnvironment environment) {
 			String authorId = environment.arguments.input.authorId
 			String text = environment.arguments.input.text
-			Viewer viewer = Viewer.findById(RelayHelpers.fromGlobalId(authorId).id)
+			Viewer viewer = Viewer.findById(RelayHelpers.fromGlobalId(authorId).id.toLong())
 
 			Comment comment = new Comment(text: text, author: viewer)
 			viewer.comments.add comment
