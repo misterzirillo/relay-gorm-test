@@ -8,7 +8,7 @@ module.exports = {
 	output: {
 		path: './grails-app/assets/javascripts',
 		publicPath: '/assets/',
-		filename: 'bundle.js'
+		filename: 'wp-bundle.js'
 	},
 	module: {
 		loaders: [

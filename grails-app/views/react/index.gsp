@@ -9,14 +9,15 @@
 <html>
 <head>
     <title></title>
-    <asset:stylesheet src="react.css" />
     <asset:stylesheet src="application.css" />
-
+	<asset:javascript src="react-application.js" />
 </head>
 <body>
 
     <div id="content"></div>
-	<asset:javascript src="bundle.js" />
+    <script>
+        window.startApp();
+    </script>
 
 </body>
 </html>

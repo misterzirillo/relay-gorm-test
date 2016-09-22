@@ -66,7 +66,7 @@ dependencies {
     compile "org.hibernate:hibernate-ehcache"
     compile "org.grails.plugins:scaffolding"
 
-    compile "io.cirill:relay-gorm-connector:0.3.1"
+    compile "io.cirill:relay-gorm-connector:0.3.2"
 
     // scss
     //provided "com.bertramlabs.plugins:sass-asset-pipeline:2.3.1"
