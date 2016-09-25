@@ -20,6 +20,6 @@ class CommentList extends React.Component {
 
 export default Relay.createContainer(CommentList, {
 	fragments: {
-		viewer: () => Relay.QL`fragment on Viewer { comments(first: 10) { edges { node { ${Comment.getFragment('comment')} } } } }`,
+		viewer: () => Relay.QL`fragment on Viewer { comments(first: 10) { pageInfo, edges { node { ${Comment.getFragment('comment')} } } } }`,
 	}
 });

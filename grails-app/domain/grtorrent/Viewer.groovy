@@ -2,6 +2,7 @@ package grtorrent
 
 import io.cirill.relay.annotation.RelayConnection
 import io.cirill.relay.annotation.RelayField
+import io.cirill.relay.annotation.RelayProxyField
 import io.cirill.relay.annotation.RelayQuery
 import io.cirill.relay.annotation.RelayType
 import io.cirill.relay.dsl.GQLConnectionTypeSpec
@@ -18,6 +19,10 @@ class Viewer {
 	static hasMany = [
 	        comments: Comment
 	]
+
+	static mapping = {
+		comments sort: 'dateCreated'
+	}
 
 	@RelayField
 	String name
@@ -39,6 +44,21 @@ class Viewer {
 			name 'Comments'
 			edgeType {
 				ref 'Comment'
+			}
+		}
+	}
+
+	@RelayProxyField
+	static allComments = {
+		GQLFieldSpec.field {
+			name 'allComments'
+			type {
+				list {
+					ref 'Comment'
+				}
+			}
+			dataFetcher { env ->
+				env.source.comments as List
 			}
 		}
 	}

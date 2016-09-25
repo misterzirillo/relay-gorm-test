@@ -4,10 +4,8 @@ import graphql.Scalars
 import graphql.relay.SimpleListConnection
 import graphql.schema.DataFetcher
 import graphql.schema.DataFetchingEnvironment
-import graphql.schema.GraphQLTypeReference
 import io.cirill.relay.RelayHelpers
 import io.cirill.relay.annotation.RelayMutation
-import io.cirill.relay.dsl.GQLConnectionTypeSpec
 import io.cirill.relay.dsl.GQLMutationSpec
 
 /**

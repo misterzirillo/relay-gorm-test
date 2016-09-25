@@ -4,12 +4,22 @@ import Relay from 'react-relay';
 /** Comment **/
 class Comment extends React.Component {
 	render () {
+
+		const { author, text, dateCreatedMs } = this.props.comment;
+		const date = new Date(dateCreatedMs);
+
 		return (
 			<div className="comment">
-				<h3 className="commentAuthor">
-					{this.props.comment.author.name}
-				</h3>
-				<blockquote>{this.props.comment.text}</blockquote>
+				<h4 className="commentAuthor">
+					{author.name}
+				</h4>
+				<span>
+					says:
+				</span>
+				<blockquote>{text}</blockquote>
+				<span>
+					{date.toDateString()}
+				</span>
 			</div>
 		);
 	}
@@ -17,6 +27,6 @@ class Comment extends React.Component {
 
 export default Relay.createContainer(Comment, {
 	fragments: {
-		comment: () => Relay.QL`fragment on Comment { id, text, author { name } }`
+		comment: () => Relay.QL`fragment on Comment { id, text, dateCreatedMs, author { name } }`
 	}
 });

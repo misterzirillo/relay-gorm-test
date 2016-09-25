@@ -1,7 +1,6 @@
 package grtorrent
 
 import grails.converters.JSON
-import graphql.ExecutionResult
 
 class GraphqlController {
 
